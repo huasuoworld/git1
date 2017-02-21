@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.VipLevelDAO">
+	<select id="search" resultType="vipLevelVO">
+		SELECT 
+		    did,
+		    level_name,
+		    level_rebate,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.vip_level_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.vip_level_t
+	</select>
+	<delete id="delete" parameterType="vipLevelVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.vip_level_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.vip_level_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="vipLevelVO">
+		update advertorial.vip_level_t
+		<set>
+			<if test="level_name != null">level_name=#{level_name},</if>
+			<if test="level_rebate != null">level_rebate=#{level_rebate},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="vipLevelVO">
+		INSERT INTO advertorial.vip_level_t
+		(
+			level_name,
+		    level_rebate,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{level_name},
+		    #{level_rebate},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

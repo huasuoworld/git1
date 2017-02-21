@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.##DAO">
+	<select id="search" resultType="##VO">
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.
+	</select>
+	<delete id="delete" parameterType="##VO">
+		delete from advertorial. where did=${did}
+	</delete>
+	<update id="update" parameterType="##VO">
+		<set>
+			<if test=" != null"></if>
+		</set>
+		last_update_time=now()
+		where did=${did}
+	</update>
+	<insert id="commit" parameterType="##VO">
+		INSERT INTO advertorial.
+		()
+		values
+		()
+	</insert>
+</mapper>	

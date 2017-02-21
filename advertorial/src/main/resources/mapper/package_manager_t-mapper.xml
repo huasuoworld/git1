@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.PackageManagerDAO">
+	<select id="search" resultType="packageManagerVO">
+		SELECT 
+		    did,
+		    package_manager_name,
+		    package_price,
+		    package_adert,
+		    media_did,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.package_manager_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.package_manager_t
+	</select>
+	<delete id="delete" parameterType="packageManagerVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.package_manager_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.package_manager_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="packageManagerVO">
+		update advertorial.package_manager_t
+		<set>
+			<if test="package_manager_name != null">package_manager_name=#{package_manager_name},</if>
+			<if test="package_price != null">package_price=#{package_price},</if>
+			<if test="package_adert != null">package_adert=#{package_adert},</if>
+			<if test="media_did != null">media_did=#{media_did},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="packageManagerVO">
+		INSERT INTO advertorial.package_manager_t
+		(
+			package_manager_name,
+		    package_price,
+		    package_adert,
+		    media_did,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{package_manager_name},
+		    #{package_price},
+		    #{package_adert},
+		    #{media_did},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

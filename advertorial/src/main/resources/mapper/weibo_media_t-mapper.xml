@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.WeiboMediaDAO">
+	<select id="search" resultType="weiboMediaVO">
+		SELECT 
+		    did,
+		    area_did,
+		    weibo_auth,
+		    weibo_websit_did,
+		    head_pic,
+		    nickname,
+		    fan,
+		    straight_market_price,
+		    straight_lock_price,
+		    redirect_market_price,
+		    redirect_lock_price,
+		    straight_cost,
+		    redirect_cost,
+		    qqnumber,
+		    commont,
+		    quantity,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.weibo_media_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.weibo_media_t
+	</select>
+	<delete id="delete" parameterType="weiboMediaVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.weibo_media_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.weibo_media_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="weiboMediaVO">
+		update advertorial.weibo_media_t
+		<set>
+			<if test="area_did != null">area_did=#{area_did},</if>
+			<if test="weibo_auth != null">weibo_auth=#{weibo_auth},</if>
+			<if test="weibo_websit_did != null">weibo_websit_did=#{weibo_websit_did},</if>
+			<if test="head_pic != null">head_pic=#{head_pic},</if>
+			<if test="nickname != null">nickname=#{nickname},</if>
+			<if test="fan != null">fan=#{fan},</if>
+			<if test="straight_market_price != null">straight_market_price=#{straight_market_price},</if>
+			<if test="straight_lock_price != null">straight_lock_price=#{straight_lock_price},</if>
+			<if test="redirect_market_price != null">redirect_market_price=#{redirect_market_price},</if>
+			<if test="redirect_lock_price != null">redirect_lock_price=#{redirect_lock_price},</if>
+			<if test="straight_cost != null">straight_cost=#{straight_cost},</if>
+			<if test="redirect_cost != null">redirect_cost=#{redirect_cost},</if>
+			<if test="qqnumber != null">qqnumber=#{qqnumber},</if>
+			<if test="commont != null">commont=#{commont},</if>
+			<if test="quantity != null">quantity=#{quantity},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="weiboMediaVO">
+		INSERT INTO advertorial.weibo_media_t
+		(
+			area_did,
+		    weibo_auth,
+		    weibo_websit_did,
+		    head_pic,
+		    nickname,
+		    fan,
+		    straight_market_price,
+		    straight_lock_price,
+		    redirect_market_price,
+		    redirect_lock_price,
+		    straight_cost,
+		    redirect_cost,
+		    qqnumber,
+		    commont,
+		    quantity,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{area_did},
+		    #{weibo_auth},
+		    #{weibo_websit_did},
+		    #{head_pic},
+		    #{nickname},
+		    #{fan},
+		    #{straight_market_price},
+		    #{straight_lock_price},
+		    #{redirect_market_price},
+		    #{redirect_lock_price},
+		    #{straight_cost},
+		    #{redirect_cost},
+		    #{qqnumber},
+		    #{commont},
+		    #{quantity},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

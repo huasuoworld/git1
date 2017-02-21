@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.WeichatMediaDAO">
+	<select id="search" resultType="weichatMediaVO">
+		SELECT 
+		    did,
+		    area_manager_did,
+		    cert,
+		    match_,
+		    type_,
+		    head_pic,
+		    qr_code,
+		    weichat_name,
+		    weichat_no,
+		    fan,
+		    read_,
+		    single_market_price,
+		    single_lock_price,
+		    more_market_price,
+		    more_lock_price,
+		    single_cost,
+		    more_cost,
+		    single_volume,
+		    media_qq,
+		    comment_,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.weichat_media_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.weichat_media_t
+	</select>
+	<delete id="delete" parameterType="weichatMediaVO">
+		
+		<if test="did != null">
+			delete from advertorial.weichat_media_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.weichat_media_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="weichatMediaVO">
+		update advertorial.weichat_media_t
+		<set>
+			<if test="area_manager_did != null">area_manager_did=#{area_manager_did},</if>
+			<if test="cert != null">cert=#{cert},</if>
+			<if test="match_ != null">match_=#{match_},</if>
+			<if test="type_ != null">type_=#{type_},</if>
+			<if test="head_pic != null">head_pic=#{head_pic},</if>
+			<if test="qr_code != null">qr_code=#{qr_code},</if>
+			<if test="weichat_name != null">weichat_name=#{weichat_name},</if>
+			<if test="weichat_no != null">weichat_no=#{weichat_no},</if>
+			<if test="fan != null">fan=#{fan},</if>
+			<if test="read_ != null">read_=#{read_},</if>
+			<if test="single_market_price != null">single_market_price=#{single_market_price},</if>
+			<if test="single_lock_price != null">single_lock_price=#{single_lock_price},</if>
+			<if test="more_market_price != null">more_market_price=#{more_market_price},</if>
+			<if test="more_lock_price != null">more_lock_price=#{more_lock_price},</if>
+			<if test="single_cost != null">single_cost=#{single_cost},</if>
+			<if test="more_cost != null">more_cost=#{more_cost},</if>
+			<if test="single_volume != null">single_volume=#{single_volume},</if>
+			<if test="media_qq != null">media_qq=#{media_qq},</if>
+			<if test="comment_ != null">comment_=#{comment_},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="weichatMediaVO">
+		INSERT INTO advertorial.weichat_media_t
+		(
+			area_manager_did,
+		    cert,
+		    match_,
+		    type_,
+		    head_pic,
+		    qr_code,
+		    weichat_name,
+		    weichat_no,
+		    fan,
+		    read_,
+		    single_market_price,
+		    single_lock_price,
+		    more_market_price,
+		    more_lock_price,
+		    single_cost,
+		    more_cost,
+		    single_volume,
+		    media_qq,
+		    comment_,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{area_manager_did},
+		    #{cert},
+		    #{match_},
+		    #{type_},
+		    #{head_pic},
+		    #{qr_code},
+		    #{weichat_name},
+		    #{weichat_no},
+		    #{fan},
+		    #{read_},
+		    #{single_market_price},
+		    #{single_lock_price},
+		    #{more_market_price},
+		    #{more_lock_price},
+		    #{single_cost},
+		    #{more_cost},
+		    #{single_volume},
+		    #{media_qq},
+		    #{comment_},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

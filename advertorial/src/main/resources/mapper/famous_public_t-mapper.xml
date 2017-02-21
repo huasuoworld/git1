@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.FamousPublicDAO">
+	<select id="search" resultType="famousPublicVO">
+		SELECT 
+		    did,
+		    famous_area_did,
+		    type_,
+		    head_pic,
+		    qr_code,
+		    weichat_name,
+		    weichat_no,
+		    fan,
+		    read_,
+		    more_market_price_1,
+		    more_lock_price_1,
+		    more_market_price_2,
+		    more_lock_price_2,
+		    more_market_other_price,
+		    more_lock_other_price,
+		    more_cost_1,
+		    more_cost_2,
+		    more_cost_3,
+		    media_qq,
+		    function_intro,
+		    price,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.famous_public_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.famous_public_t
+	</select>
+	<delete id="delete" parameterType="famousPublicVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.famous_public_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.famous_public_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="famousPublicVO">
+		update advertorial.famous_public_t
+		<set>
+			<if test="famous_area_did != null">famous_area_did=#{famous_area_did},</if>
+			<if test="type_ != null">type_=#{type_},</if>
+			<if test="head_pic != null">head_pic=#{head_pic},</if>
+			<if test="qr_code != null">qr_code=#{qr_code},</if>
+			<if test="weichat_name != null">weichat_name=#{weichat_name},</if>
+			<if test="weichat_no != null">weichat_no=#{weichat_no},</if>
+			<if test="fan != null">fan=#{fan},</if>
+			<if test="read_ != null">read_=#{read_},</if>
+			<if test="more_market_price_1 != null">more_market_price_1=#{more_market_price_1},</if>
+			<if test="more_lock_price_1 != null">more_lock_price_1=#{more_lock_price_1},</if>
+			<if test="more_market_price_2 != null">more_market_price_2=#{more_market_price_2},</if>
+			<if test="more_lock_price_2 != null">more_lock_price_2=#{more_lock_price_2},</if>
+			<if test="more_market_other_price != null">more_market_other_price=#{more_market_other_price},</if>
+			<if test="more_lock_other_price != null">more_lock_other_price=#{more_lock_other_price},</if>
+			<if test="more_cost_1 != null">more_cost_1=#{more_cost_1},</if>
+			<if test="more_cost_2 != null">more_cost_2=#{more_cost_2},</if>
+			<if test="more_cost_3 != null">more_cost_3=#{more_cost_3},</if>
+			<if test="media_qq != null">media_qq=#{media_qq},</if>
+			<if test="function_intro != null">function_intro=#{function_intro},</if>
+			<if test="price != null">price=#{price},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="famousPublicVO">
+		INSERT INTO advertorial.famous_public_t
+		(
+			famous_area_did,
+		    type_,
+		    head_pic,
+		    qr_code,
+		    weichat_name,
+		    weichat_no,
+		    fan,
+		    read_,
+		    more_market_price_1,
+		    more_lock_price_1,
+		    more_market_price_2,
+		    more_lock_price_2,
+		    more_market_other_price,
+		    more_lock_other_price,
+		    more_cost_1,
+		    more_cost_2,
+		    more_cost_3,
+		    media_qq,
+		    function_intro,
+		    price,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{famous_area_did},
+		    #{type_},
+		    #{head_pic},
+		    #{qr_code},
+		    #{weichat_name},
+		    #{weichat_no},
+		    #{fan},
+		    #{read_},
+		    #{more_market_price_1},
+		    #{more_lock_price_1},
+		    #{more_market_price_2},
+		    #{more_lock_price_2},
+		    #{more_market_other_price},
+		    #{more_lock_other_price},
+		    #{more_cost_1},
+		    #{more_cost_2},
+		    #{more_cost_3},
+		    #{media_qq},
+		    #{function_intro},
+		    #{price},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

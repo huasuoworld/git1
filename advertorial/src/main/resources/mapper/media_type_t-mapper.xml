@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.MediaTypeDAO">
+	<select id="search" resultType="mediaTypeVO">
+		SELECT 
+		    did,
+		    owner,
+		    media_type_name,
+		    order_,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.media_type_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.media_type_t
+	</select>
+	<delete id="delete" parameterType="mediaTypeVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.media_type_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.media_type_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="mediaTypeVO">
+		update advertorial.media_type_t
+		<set>
+			<if test="owner != null">owner=#{owner},</if>
+			<if test="media_type_name != null">media_type_name=#{media_type_name},</if>
+			<if test="order_ != null">order_=#{order_},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="mediaTypeVO">
+		INSERT INTO advertorial.media_type_t
+		(
+			owner,
+		    media_type_name,
+		    order_,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{owner},
+		    #{media_type_name},
+		    #{order_},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

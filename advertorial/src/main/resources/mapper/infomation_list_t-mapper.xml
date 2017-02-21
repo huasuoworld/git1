@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.InfomationListDAO">
+	<select id="search" resultType="infomationListVO">
+		SELECT 
+		    did,
+		    type_,
+		    keyword,
+		    description,
+		    thumbnail,
+		    content,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.infomation_list_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.infomation_list_t
+	</select>
+	<delete id="delete" parameterType="infomationListVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.infomation_list_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.infomation_list_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="infomationListVO">
+		update advertorial.infomation_list_t
+		<set>
+			<if test="type_ != null">type_=#{type_},</if>
+			<if test="keyword != null">keyword=#{keyword},</if>
+			<if test="description != null">description=#{description},</if>
+			<if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+			<if test="content != null">content=#{content},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="infomationListVO">
+		INSERT INTO advertorial.infomation_list_t
+		(
+			type_,
+		    keyword,
+		    description,
+		    thumbnail,
+		    content,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{type_},
+		    #{keyword},
+		    #{description},
+		    #{thumbnail},
+		    #{content},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.FinancialReportDAO">
+	<select id="search" resultType="financialReportVO">
+		SELECT 
+		    did,
+		    order_no,
+		    user,
+		    contact,
+		    company,
+		    deal_balance,
+		    account_balance,
+		    gross_profit,
+		    add_time,
+		    status,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.financial_report_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.financial_report_t
+	</select>
+	<delete id="delete" parameterType="financialReportVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.financial_report_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.financial_report_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="financialReportVO">
+		update advertorial.financial_report_t
+		<set>
+			<if test="order_no != null">order_no=#{order_no},</if>
+			<if test="user != null">user=#{user},</if>
+			<if test="contact != null">contact=#{contact},</if>
+			<if test="company != null">company=#{company},</if>
+			<if test="deal_balance != null">deal_balance=#{deal_balance},</if>
+			<if test="account_balance != null">account_balance=#{account_balance},</if>
+			<if test="gross_profit != null">gross_profit=#{gross_profit},</if>
+			<if test="status != null">status=#{status},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="financialReportVO">
+		INSERT INTO advertorial.financial_report_t
+		(
+			order_no,
+		    user,
+		    contact,
+		    company,
+		    deal_balance,
+		    account_balance,
+		    gross_profit,
+		    add_time,
+		    status,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{order_no},
+		    #{user},
+		    #{contact},
+		    #{company},
+		    #{deal_balance},
+		    #{account_balance},
+		    #{gross_profit},
+		    #{add_time},
+		    #{status},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

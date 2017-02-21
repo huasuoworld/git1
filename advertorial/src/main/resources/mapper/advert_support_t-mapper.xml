@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.AdvertSupportDAO">
+	<select id="search" resultType="advertSupportVO">
+		SELECT 
+		    did,
+		    advert_name,
+		    advert_size,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.advert_support_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.advert_support_t
+	</select>
+	<delete id="delete" parameterType="advertSupportVO">
+		<if test="did != null">
+			delete from advertorial.advert_support_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.advert_support_t where where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="advertSupportVO">
+		update advertorial.advert_support_t
+		<set>
+			<if test="advert_name != null">advert_name=#{advert_name},</if>
+			<if test="advert_size != null">advert_size=#{advert_size},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="advertSupportVO">
+		INSERT INTO advertorial.advert_support_t
+		(	advert_name,
+		    advert_size,
+		    last_update_time,
+		    last_update_by)
+		values
+		(	#{advert_name},
+		    #{advert_size},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

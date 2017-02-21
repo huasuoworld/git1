@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.WeiboOrderDetailDAO">
+	<select id="search" resultType="weiboOrderDetailVO">
+		SELECT 
+		    did,
+		    weibo_order_did,
+		    order_no,
+		    media_name,
+		    qqnumber,
+		    comment,
+		    status_,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.weibo_order_detail_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.weibo_order_detail_t
+	</select>
+	<delete id="delete" parameterType="weiboOrderDetailVO">
+		
+		<if test="did != null">
+			delete from advertorial.weibo_order_detail_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.weibo_order_detail_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="weiboOrderDetailVO">
+		update advertorial.weibo_order_detail_t
+		<set>
+			<if test="weibo_order_did != null">weibo_order_did=#{weibo_order_did},</if>
+			<if test="order_no != null">order_no=#{order_no},</if>
+			<if test="media_name != null">media_name=#{media_name},</if>
+			<if test="qqnumber != null">qqnumber=#{qqnumber},</if>
+			<if test="comment != null">comment=#{comment},</if>
+			<if test="status_ != null">status_=#{status_},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="weiboOrderDetailVO">
+		INSERT INTO advertorial.weibo_order_detail_t
+		(
+			weibo_order_did,
+		    order_no,
+		    media_name,
+		    qqnumber,
+		    comment,
+		    status_,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{weibo_order_did},
+		    #{order_no},
+		    #{media_name},
+		    #{qqnumber},
+		    #{comment},
+		    #{status_},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.WeichatBatchPriceAdjustmentDAO">
+	<select id="search" resultType="weichatBatchPriceAdjustmentVO">
+		SELECT 
+		    did,
+		    price_adjustment_choose,
+		    single_market_price,
+		    more_market_price,
+		    single_lock_price,
+		    more_lock_price,
+		    single_cost_price,
+		    more_cost_price,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.weichat_batch_price_adjustment_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.weichat_batch_price_adjustment_t
+	</select>
+	<delete id="delete" parameterType="weichatBatchPriceAdjustmentVO">
+		
+		<if test="did != null">
+			delete from advertorial.weichat_batch_price_adjustment_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.weichat_batch_price_adjustment_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="weichatBatchPriceAdjustmentVO">
+		update	advertorial.weichat_batch_price_adjustment_t
+		<set>
+			<if test="price_adjustment_choose != null">price_adjustment_choose=#{price_adjustment_choose},</if>
+			<if test="single_market_price != null">single_market_price=#{single_market_price},</if>
+			<if test="more_market_price != null">more_market_price=#{more_market_price},</if>
+			<if test="single_lock_price != null">single_lock_price=#{single_lock_price},</if>
+			<if test="more_lock_price != null">more_lock_price=#{more_lock_price},</if>
+			<if test="single_cost_price != null">single_cost_price=#{single_cost_price},</if>
+			<if test="more_cost_price != null">more_cost_price=#{more_cost_price},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="weichatBatchPriceAdjustmentVO">
+		INSERT INTO advertorial.weichat_batch_price_adjustment_t
+		(
+			price_adjustment_choose,
+		    single_market_price,
+		    more_market_price,
+		    single_lock_price,
+		    more_lock_price,
+		    single_cost_price,
+		    more_cost_price,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{price_adjustment_choose},
+		    #{single_market_price},
+		    #{more_market_price},
+		    #{single_lock_price},
+		    #{more_lock_price},
+		    #{single_cost_price},
+		    #{more_cost_price},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

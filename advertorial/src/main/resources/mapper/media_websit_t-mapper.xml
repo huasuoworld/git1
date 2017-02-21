@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.MediaWebsitDAO">
+	<select id="search" resultType="mediaWebsitVO">
+		SELECT 
+		    did,
+		    media_type_did,
+		    area_manager_did,
+		    potal_media_did,
+		    media_name,
+		    internet_address,
+		    case_address,
+		    included_reference_did,
+		    link_type_did,
+		    media_sender_did,
+		    entry,
+		    media_qq,
+		    cost_price,
+		    market_price,
+		    lock_price,
+		    comment,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.media_websit_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.media_websit_t
+	</select>
+	<delete id="delete" parameterType="mediaWebsitVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.media_websit_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.media_websit_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="mediaWebsitVO">
+		update advertorial.media_websit_t
+		<set>
+			<if test="media_type_did != null">media_type_did=#{media_type_did},</if>
+			<if test="area_manager_did != null">area_manager_did=#{area_manager_did},</if>
+			<if test="potal_media_did != null">potal_media_did=#{potal_media_did},</if>
+			<if test="media_name != null">media_name=#{media_name},</if>
+			<if test="internet_address != null">internet_address=#{internet_address},</if>
+			<if test="case_address != null">case_address=#{case_address},</if>
+			<if test="included_reference_did != null">included_reference_did=#{included_reference_did},</if>
+			<if test="link_type_did != null">link_type_did=#{link_type_did},</if>
+			<if test="media_sender_did != null">media_sender_did=#{media_sender_did},</if>
+			<if test="entry != null">entry=#{entry},</if>
+			<if test="media_qq != null">media_qq=#{media_qq},</if>
+			<if test="cost_price != null">cost_price=#{cost_price},</if>
+			<if test="market_price != null">market_price=#{market_price},</if>
+			<if test="lock_price != null">lock_price=#{lock_price},</if>
+			<if test="comment != null">comment=#{comment},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="mediaWebsitVO">
+		INSERT INTO advertorial.media_websit_t
+		(
+			media_type_did,
+		    area_manager_did,
+		    potal_media_did,
+		    media_name,
+		    internet_address,
+		    case_address,
+		    included_reference_did,
+		    link_type_did,
+		    media_sender_did,
+		    entry,
+		    media_qq,
+		    cost_price,
+		    market_price,
+		    lock_price,
+		    comment,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{media_type_did},
+		    #{area_manager_did},
+		    #{potal_media_did},
+		    #{media_name},
+		    #{internet_address},
+		    #{case_address},
+		    #{included_reference_did},
+		    #{link_type_did},
+		    #{media_sender_did},
+		    #{entry},
+		    #{media_qq},
+		    #{cost_price},
+		    #{market_price},
+		    #{lock_price},
+		    #{comment},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

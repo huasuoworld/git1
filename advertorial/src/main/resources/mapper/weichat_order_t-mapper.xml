@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.WeichatOrderDAO">
+	<select id="search" resultType="weichatOrderVO">
+		SELECT 
+		    did,
+		    order_no,
+		    vip_name,
+		    task_name,
+		    media_no,
+		    cost,
+		    status_,
+		    urgent,
+		    image_text,
+		    postponed,
+		    publish_time,
+		    add_time,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.weichat_order_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.weichat_order_t
+	</select>
+	<delete id="delete" parameterType="weichatOrderVO">
+		
+		<if test="did != null">
+			delete from advertorial.weichat_order_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.weichat_order_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="weichatOrderVO">
+		update advertorial.weichat_order_t
+		<set>
+			<if test="order_no != null">order_no=#{order_no},</if>
+			<if test="vip_name != null">vip_name=#{vip_name},</if>
+			<if test="task_name != null">task_name=#{task_name},</if>
+			<if test="media_no != null">media_no=#{media_no},</if>
+			<if test="cost != null">cost=#{cost},</if>
+			<if test="status_ != null">status_=#{status_},</if>
+			<if test="urgent != null">urgent=#{urgent},</if>
+			<if test="image_text != null">image_text=#{image_text},</if>
+			<if test="postponed != null">postponed=#{postponed},</if>
+			<if test="publish_time != null">publish_time=#{publish_time},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="weichatOrderVO">
+		INSERT INTO advertorial.weichat_order_t
+		(
+			order_no,
+		    vip_name,
+		    task_name,
+		    media_no,
+		    cost,
+		    status_,
+		    urgent,
+		    image_text,
+		    postponed,
+		    publish_time,
+		    add_time,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{order_no},
+		    #{vip_name},
+		    #{task_name},
+		    #{media_no},
+		    #{cost},
+		    #{status_},
+		    #{urgent},
+		    #{image_text},
+		    #{postponed},
+		    now(),
+		    now(),
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.ColumnVisitDAO">
+	<select id="search" resultType="columnVisitVO">
+		SELECT 
+		    did,
+		    column_name,
+		    order_,
+		    visit,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.column_visit_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.column_visit_t
+	</select>
+	<delete id="delete" parameterType="columnVisitVO">
+		<if test="did != null">
+			delete from advertorial.column_visit_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.column_visit_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="columnVisitVO">
+		update advertorial.column_visit_t
+		<set>
+			<if test="column_name != null">column_name=#{column_name},</if>
+			<if test="order_ != null">order_=#{order_},</if>
+			<if test="visit != null">visit=#{visit},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="columnVisitVO">
+		INSERT INTO advertorial.column_visit_t
+		(
+			column_name,
+		    order_,
+		    visit,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{column_name},
+		    #{order_},
+		    #{visit},
+		    #{last_update_time},
+		    #{last_update_by})
+	</insert>
+</mapper>	

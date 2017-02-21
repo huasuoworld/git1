@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.RechargeRecordDAO">
+	<select id="search" resultType="rechargeRecordVO">
+		SELECT 
+		    did,
+		    order_no,
+		    user,
+		    contact,
+		    company,
+		    deal_balance,
+		    account_balance,
+		    add_time,
+		    status,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.recharge_record_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.recharge_record_t
+	</select>
+	<delete id="delete" parameterType="rechargeRecordVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.recharge_record_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.recharge_record_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="rechargeRecordVO">
+		update advertorial.recharge_record_t
+		<set>
+			<if test="order_no != null">order_no=#{order_no},</if>
+			<if test="user != null">user=#{user},</if>
+			<if test="contact != null">contact=#{contact},</if>
+			<if test="company != null">company=#{company},</if>
+			<if test="deal_balance != null">deal_balance=#{deal_balance},</if>
+			<if test="account_balance != null">account_balance=#{account_balance},</if>
+			<if test="status != null">status=#{status},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="rechargeRecordVO">
+		INSERT INTO advertorial.recharge_record_t
+		(
+			order_no,
+		    user,
+		    contact,
+		    company,
+		    deal_balance,
+		    account_balance,
+		    add_time,
+		    status,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{order_no},
+		    #{user},
+		    #{contact},
+		    #{company},
+		    #{deal_balance},
+		    #{account_balance},
+		    now(),
+		    #{status},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

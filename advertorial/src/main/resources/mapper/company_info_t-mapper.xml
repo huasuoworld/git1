@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.CompanyInfoDAO">
+	<select id="search" resultType="companyInfoVO">
+		SELECT 
+		    did,
+		    company_name,
+		    tax_no,
+		    company_address,
+		    telephone,
+		    bank,
+		    user_,
+		    tax_regist,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.company_info_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.company_info_t
+	</select>
+	<delete id="delete" parameterType="companyInfoVO">
+		<if test="did != null">
+			delete from advertorial.company_info_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.company_info_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="companyInfoVO">
+		update advertorial.company_info_t
+		<set>
+			<if test="company_name != null">company_name=#{company_name},</if>
+			<if test="tax_no != null">tax_no=#{tax_no},</if>
+			<if test="company_address != null">company_address=#{company_address},</if>
+			<if test="telephone != null">telephone=#{telephone},</if>
+			<if test="bank != null">bank=#{bank},</if>
+			<if test="user_ != null">user_=#{user_},</if>
+			<if test="tax_regist != null">tax_regist=#{tax_regist},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="companyInfoVO">
+		INSERT INTO advertorial.company_info_t
+		(
+			company_name,
+		    tax_no,
+		    company_address,
+		    telephone,
+		    bank,
+		    user_,
+		    tax_regist,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{company_name},
+		    #{tax_no},
+		    #{company_address},
+		    #{telephone},
+		    #{bank},
+		    #{user_},
+		    #{tax_regist},
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

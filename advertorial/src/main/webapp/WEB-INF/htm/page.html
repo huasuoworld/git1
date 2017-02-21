@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery.js"></script>
+</head>
+<body>
+
+	<span id="tables">page</span>
+	</br>
+	<a href="#" id="previousPage">上一页</a>
+	<span id="currentPage"></span>
+	<a href="#" id="nextPage">下一页</a>
+	<select id="pageSize"><option value="10">10</option>
+		<option value="20">20</option>
+		<option value="30">30</option></select>
+	<input id="page" type="text" />
+	<a href="#" id="jumpPage">跳转</a>
+</body>
+<script type="text/javascript">
+var re = null;
+	var forward = function(url, param) {
+		$.post(url, param, function(result) {
+			re = result;
+			var htm = "<table>";
+			var list = result.list;
+			for(var i = 0; i < list.length; i++) {
+				htm = htm + list[i] + "<br>";
+				"<tr><td>"+list[i].dno+"</td>";
+			}
+			htm = htm + "</table>";
+			$("#tables").html(htm);
+		},"json");
+	}
+	
+	var pageSize = 20;
+	
+	$("#pageSize").change(function(){
+		pageSize = this.value;
+	});
+
+	$("#previousPage").click(function() {
+		forward("../page/go", {
+			"start" : 20,
+			"limit" : pageSize
+		});
+	});
+
+	$("#nextPage").click(function() {
+		forward("../page/go", {
+			"start" : 20,
+			"limit" : pageSize
+		});
+	});
+
+	$("#jumpPage").click(function() {
+		forward("page/go", {
+			"start" : $("#page").val()*20,
+			"limit" : pageSize
+		});
+	});
+</script>
+</html>

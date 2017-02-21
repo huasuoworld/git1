@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.ReceiptDAO">
+	<select id="search" resultType="receiptVO">
+		SELECT 
+		    did,
+		    order_no,
+		    vip_name,
+		    head_,
+		    content_,
+		    balance_y,
+		    balance_n,
+		    status_,
+		    add_time,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.receipt_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.receipt_t
+	</select>
+	<delete id="delete" parameterType="receiptVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.receipt_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.receipt_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="receiptVO">
+		update advertorial.receipt_t
+		<set>
+			<if test="order_no != null">order_no=#{order_no},</if>
+			<if test="vip_name != null">vip_name=#{vip_name},</if>
+			<if test="head_ != null">head_=#{head_},</if>
+			<if test="content_ != null">content_=#{content_},</if>
+			<if test="balance_y != null">balance_y=#{balance_y},</if>
+			<if test="balance_n != null">balance_n=#{balance_n},</if>
+			<if test="status_ != null">status_=#{status_},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="receiptVO">
+		INSERT INTO advertorial.receipt_t
+		(
+			order_no,
+		    vip_name,
+		    head_,
+		    content_,
+		    balance_y,
+		    balance_n,
+		    status_,
+		    add_time,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{order_no},
+		    #{vip_name},
+		    #{head_},
+		    #{content_},
+		    #{balance_y},
+		    #{balance_n},
+		    #{status_},
+		    now(),
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

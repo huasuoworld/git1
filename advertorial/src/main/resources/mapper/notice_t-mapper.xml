@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.NoticeDAO">
+	<select id="search" resultType="noticeVO">
+		SELECT 
+		    did, content_, last_update_time, last_update_by
+		FROM
+		    advertorial.notice_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.notice_t
+	</select>
+	<delete id="delete" parameterType="noticeVO">
+		<if test="did != null">
+			delete from advertorial.notice_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.notice_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="noticeVO">
+		update advertorial.notice_t
+		<set>
+			<if test="content_ != null">content_=#{content_},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="noticeVO">
+		INSERT INTO advertorial.notice_t
+		(content_, last_update_time, last_update_by)
+		values
+		(#{content_}, now(), #{last_update_by})
+	</insert>
+</mapper>	

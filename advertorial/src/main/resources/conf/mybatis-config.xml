@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 命名空间 -->
+	<typeAliases>
+		<typeAlias alias="empVO" type="com.hua.app.vo.EmpVO" />
+		<typeAlias alias="adminListVO" type="com.hua.app.vo.AdminListVO" />
+		<typeAlias alias="advertSupportVO" type="com.hua.app.vo.AdvertSupportVO" />
+		<typeAlias alias="advertVO" type="com.hua.app.vo.AdvertVO" />
+		<typeAlias alias="areaManagerVO" type="com.hua.app.vo.AreaManagerVO" />
+		<typeAlias alias="batchPriceAdjustmentWebsitVO" type="com.hua.app.vo.BatchPriceAdjustmentWebsitVO" />
+		<typeAlias alias="columnVisitVO" type="com.hua.app.vo.ColumnVisitVO" />
+		<typeAlias alias="companyInfoVO" type="com.hua.app.vo.CompanyInfoVO" />
+		<typeAlias alias="customerCommentVO" type="com.hua.app.vo.CustomerCommentVO" />
+		<typeAlias alias="expressInfoVO" type="com.hua.app.vo.ExpressInfoVO" />
+		<typeAlias alias="famousAreaVO" type="com.hua.app.vo.FamousAreaVO" />
+		<typeAlias alias="famousOrderDetailVO" type="com.hua.app.vo.FamousOrderDetailVO" />
+		<typeAlias alias="famousOrderVO" type="com.hua.app.vo.FamousOrderVO" />
+		<typeAlias alias="famousPublicVO" type="com.hua.app.vo.FamousPublicVO" />
+		<typeAlias alias="financialReportVO" type="com.hua.app.vo.FinancialReportVO" />
+		<typeAlias alias="friendshipLinkVO" type="com.hua.app.vo.FriendshipLinkVO" />
+		<typeAlias alias="gunnerOrderVO" type="com.hua.app.vo.GunnerOrderVO" />
+		<typeAlias alias="includedReferenceVO" type="com.hua.app.vo.IncludedReferenceVO" />
+		<typeAlias alias="infomationListVO" type="com.hua.app.vo.InfomationListVO" />
+		<typeAlias alias="infomationTypeVO" type="com.hua.app.vo.InfomationTypeVO" />
+		<typeAlias alias="linkTypeVO" type="com.hua.app.vo.LinkTypeVO" />
+		<typeAlias alias="mediaOrderDetailVO" type="com.hua.app.vo.MediaOrderDetailVO" />
+		<typeAlias alias="mediaOrderVO" type="com.hua.app.vo.MediaOrderVO" />
+		<typeAlias alias="mediaSenderVO" type="com.hua.app.vo.MediaSenderVO" />
+		<typeAlias alias="mediaTypeVO" type="com.hua.app.vo.MediaTypeVO" />
+		<typeAlias alias="mediaVO" type="com.hua.app.vo.MediaVO" />
+		<typeAlias alias="mediaWebsitVO" type="com.hua.app.vo.MediaWebsitVO" />
+		<typeAlias alias="noticeVO" type="com.hua.app.vo.NoticeVO" />
+		<typeAlias alias="orderFeedbackVO" type="com.hua.app.vo.OrderFeedbackVO" />
+		<typeAlias alias="packageManagerVO" type="com.hua.app.vo.PackageManagerVO" />
+		<typeAlias alias="partnersVO" type="com.hua.app.vo.PartnersVO" />
+		<typeAlias alias="portalMediaVO" type="com.hua.app.vo.PortalMediaVO" />
+		<typeAlias alias="receiptVO" type="com.hua.app.vo.ReceiptVO" />
+		<typeAlias alias="rechargeRecordVO" type="com.hua.app.vo.RechargeRecordVO" />
+		<typeAlias alias="userFeedbackVO" type="com.hua.app.vo.UserFeedbackVO" />
+		<typeAlias alias="vipLevelVO" type="com.hua.app.vo.VipLevelVO" />
+		<typeAlias alias="vipListVO" type="com.hua.app.vo.VipListVO" />
+		<typeAlias alias="websitConfigVO" type="com.hua.app.vo.WebsitConfigVO" />
+		<typeAlias alias="weiboAuthenticationVO" type="com.hua.app.vo.WeiboAuthenticationVO" />
+		<typeAlias alias="weiboBatchPriceAdjustmentVO" type="com.hua.app.vo.WeiboBatchPriceAdjustmentVO" />
+		<typeAlias alias="weiboMediaTypeVO" type="com.hua.app.vo.WeiboMediaTypeVO" />
+		<typeAlias alias="weiboMediaVO" type="com.hua.app.vo.WeiboMediaVO" />
+		<typeAlias alias="weiboOrderDetailVO" type="com.hua.app.vo.WeiboOrderDetailVO" />
+		<typeAlias alias="weiboOrderVO" type="com.hua.app.vo.WeiboOrderVO" />
+		<typeAlias alias="weiboWebsitVO" type="com.hua.app.vo.WeiboWebsitVO" />
+		<typeAlias alias="weichatBatchPriceAdjustmentVO" type="com.hua.app.vo.WeichatBatchPriceAdjustmentVO" />
+		<typeAlias alias="weichatMediaTypeVO" type="com.hua.app.vo.WeichatMediaTypeVO" />
+		<typeAlias alias="weichatMediaVO" type="com.hua.app.vo.WeichatMediaVO" />
+		<typeAlias alias="weichatOrderDetailVO" type="com.hua.app.vo.WeichatOrderDetailVO" />
+		<typeAlias alias="weichatOrderVO" type="com.hua.app.vo.WeichatOrderVO" />
+	</typeAliases>
+
+	<!-- 映射map -->
+	<mappers>
+		<mapper resource="mapper/emp-mapper.xml" />
+		<mapper resource="mapper/admin_list_t-mapper.xml" />
+		<mapper resource="mapper/advert_support_t-mapper.xml" />
+		<mapper resource="mapper/advert_t-mapper.xml" />
+		<mapper resource="mapper/area_manager_t-mapper.xml" />
+		<mapper resource="mapper/batch_price_adjustment_websit_t-mapper.xml" />
+		<mapper resource="mapper/column_visit_t-mapper.xml" />
+		<mapper resource="mapper/company_info_t-mapper.xml" />
+		<mapper resource="mapper/customer_comment_t-mapper.xml" />
+		<mapper resource="mapper/express_info_t-mapper.xml" />
+		<mapper resource="mapper/famous_area_t-mapper.xml" />
+		<mapper resource="mapper/famous_order_detail_t-mapper.xml" />
+		<mapper resource="mapper/famous_order_t-mapper.xml" />
+		<mapper resource="mapper/famous_public_t-mapper.xml" />
+		<mapper resource="mapper/financial_report_t-mapper.xml" />
+		<mapper resource="mapper/friendship_link_t-mapper.xml" />
+		<mapper resource="mapper/gunner_order_t-mapper.xml" />
+		<mapper resource="mapper/included_reference_t-mapper.xml" />
+		<mapper resource="mapper/infomation_list_t-mapper.xml" />
+		<mapper resource="mapper/link_type_t-mapper.xml" />
+		<mapper resource="mapper/media_order_detail_t-mapper.xml" />
+		<mapper resource="mapper/media_order_t-mapper.xml" />
+		<mapper resource="mapper/media_sender_t-mapper.xml" />
+<!-- 		<mapper resource="mapper/media_t-mapper.xml" /> -->
+		<mapper resource="mapper/media_type_t-mapper.xml" />
+		<mapper resource="mapper/media_websit_t-mapper.xml" />
+		<mapper resource="mapper/notice_t-mapper.xml" />
+		<mapper resource="mapper/order_feedback_t-mapper.xml" />
+		<mapper resource="mapper/package_manager_t-mapper.xml" />
+		<mapper resource="mapper/partners_t-mapper.xml" />
+		<mapper resource="mapper/portal_media_t-mapper.xml" />
+		<mapper resource="mapper/receipt_t-mapper.xml" />
+		<mapper resource="mapper/recharge_record_t-mapper.xml" />
+		<mapper resource="mapper/user_feedback_t-mapper.xml" />
+		<mapper resource="mapper/vip_level_t-mapper.xml" />
+		<mapper resource="mapper/vip_list_t-mapper.xml" />
+		<mapper resource="mapper/websit_config_t-mapper.xml" />
+		<mapper resource="mapper/weibo_authentication_t-mapper.xml" />
+		<mapper resource="mapper/weibo_batch_price_adjustment_t-mapper.xml" />
+		<mapper resource="mapper/weibo_media_t-mapper.xml" />
+		<mapper resource="mapper/weibo_media_type_t-mapper.xml" />
+		<mapper resource="mapper/weibo_order_detail_t-mapper.xml" />
+		<mapper resource="mapper/weibo_order_t-mapper.xml" />
+		<mapper resource="mapper/weibo_websit_t-mapper.xml" />
+		<mapper resource="mapper/weichat_batch_price_adjustment_t-mapper.xml" />
+		<mapper resource="mapper/weichat_media_t-mapper.xml" />
+		<mapper resource="mapper/weichat_media_type_t-mapper.xml" />
+		<mapper resource="mapper/weichat_order_detail_t-mapper.xml" />
+		<mapper resource="mapper/weichat_order_t-mapper.xml" />
+	</mappers>
+</configuration>

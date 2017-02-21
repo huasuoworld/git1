@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.AdminListDAO">
+	<select id="search" resultType="adminListVO">
+        SELECT 
+		    admin_list_t.did,
+		    admin_list_t.vip_id,
+		    admin_list_t.user_,
+		    admin_list_t.admin_name,
+		    admin_list_t.telephone,
+		    admin_list_t.qqnumber,
+		    admin_list_t.role_id,
+		    admin_list_t.password,
+		    admin_list_t.add_time,
+		    admin_list_t.last_logon_time,
+		    admin_list_t.last_update_time,
+		    admin_list_t.last_update_by
+		FROM
+		    advertorial.admin_list_t
+		    where 1=1
+		    <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+        <![CDATA[
+        SELECT count(*)  FROM advertorial.admin_list_t;
+        ]]>
+	</select>
+	<delete id="delete" parameterType="adminListVO">
+		<if test="did != null">
+			delete from advertorial.admin_list_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.admin_list_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="adminListVO">
+		update	advertorial.admin_list_t 
+		<set>
+			<if test="vip_id != null">vip_id=#{vip_id},</if>
+			<if test="user_ != null">user_=#{user_},</if>
+			<if test="admin_name != null">admin_name=#{admin_name},</if>
+			<if test="telephone != null">telephone=#{telephone},</if>
+			<if test="qqnumber != null">qqnumber=#{qqnumber},</if>
+			<if test="role_id != null">role_id=#{role_id},</if>
+			<if test="password != null">password=#{password},</if>
+			<if test="last_logon_time != null">last_logon_time=#{last_logon_time},</if>	
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>	
+			last_update_time=now()
+		</set>		
+		where did=#{did}		
+	</update>
+	<insert id="commit" parameterType="adminListVO">
+		INSERT INTO advertorial.admin_list_t
+		(
+		vip_id,
+		user_,
+		admin_name,
+		telephone,
+		qqnumber,
+		role_id,
+		password,
+		add_time,
+		last_logon_time,
+		last_update_time,
+		last_update_by)
+		VALUES
+		(
+		#{vip_id},
+		#{user_},
+		#{admin_name},
+		#{telephone},
+		#{qqnumber},
+		#{role_id},
+		#{password},
+		now(),
+		now(),
+		now(),
+		#{last_update_by});
+	</insert>
+</mapper>                        

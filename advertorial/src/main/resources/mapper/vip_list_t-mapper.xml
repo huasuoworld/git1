@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.VipListDAO">
+	<select id="search" resultType="vipListVO">
+		SELECT 
+		    did,
+		    vip_id,
+		    account_balance,
+		    vip_name,
+		    contact,
+		    company,
+		    internet_address,
+		    telephone,
+		    qqnumber,
+		    vip_level_id,
+		    is_deal,
+		    add_time,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.vip_list_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.vip_list_t
+	</select>
+	<delete id="delete" parameterType="vipListVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.vip_list_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.vip_list_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="vipListVO">
+		update advertorial.vip_list_t
+		<set>
+			<if test="vip_id != null">vip_id=#{vip_id},</if>
+			<if test="account_balance != null">account_balance=#{account_balance},</if>
+			<if test="vip_name != null">vip_name=#{vip_name},</if>
+			<if test="contact != null">contact=#{contact},</if>
+			<if test="company != null">company=#{company},</if>
+			<if test="internet_address != null">internet_address=#{internet_address},</if>
+			<if test="telephone != null">telephone=#{telephone},</if>
+			<if test="qqnumber != null">qqnumber=#{qqnumber},</if>
+			<if test="vip_level_id != null">vip_level_id=#{vip_level_id},</if>
+			<if test="is_deal != null">is_deal=#{is_deal},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="vipListVO">
+		INSERT INTO advertorial.vip_list_t
+		(
+			vip_id,
+		    account_balance,
+		    vip_name,
+		    contact,
+		    company,
+		    internet_address,
+		    telephone,
+		    qqnumber,
+		    vip_level_id,
+		    is_deal,
+		    add_time,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{vip_id},
+		    #{account_balance},
+		    #{vip_name},
+		    #{contact},
+		    #{company},
+		    #{internet_address},
+		    #{telephone},
+		    #{qqnumber},
+		    #{vip_level_id},
+		    #{is_deal},
+		    now(),
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	

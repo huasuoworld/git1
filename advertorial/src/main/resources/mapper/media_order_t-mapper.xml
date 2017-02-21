@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http//ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hua.app.dao.MediaOrderDAO">
+	<select id="search" resultType="mediaOrderVO">
+		SELECT 
+		    did,
+		    order_no,
+		    vip_name,
+		    article_title,
+		    media_no,
+		    cost,
+		    status_,
+		    add_time,
+		    last_update_time,
+		    last_update_by
+		FROM
+		    advertorial.media_order_t
+		    where 1=1
+		     <if test="did != null and did != ''" >and did=#{did}</if>
+        	limit #{start},#{limit};
+	</select>
+	<select id="count" resultType="java.lang.Integer" >
+		SELECT count(*)  FROM advertorial.media_order_t
+	</select>
+	<delete id="delete" parameterType="mediaOrderVO">
+		
+		
+		<if test="did != null">
+			delete from advertorial.media_order_t where did=#{did}
+		</if>
+		<if test="did_ != null">
+			delete from advertorial.media_order_t where did in
+			<foreach collection="did_" item = "model" open="(" separator="," close=")">#{model}</foreach>  
+		</if>
+	</delete>
+	<update id="update" parameterType="mediaOrderVO">
+		update advertorial.media_order_t
+		<set>
+			<if test="order_no != null">order_no=#{order_no},</if>
+			<if test="vip_name != null">vip_name=#{vip_name},</if>
+			<if test="article_title != null">article_title=#{article_title},</if>
+			<if test="media_no != null">media_no=#{media_no},</if>
+			<if test="cost != null">cost=#{cost},</if>
+			<if test="status_ != null">status_=#{status_},</if>
+			<if test="last_update_by != null">last_update_by=#{last_update_by},</if>
+		</set>
+		last_update_time=now()
+		where did=#{did}
+	</update>
+	<insert id="commit" parameterType="mediaOrderVO">
+		INSERT INTO advertorial.media_order_t
+		(
+			order_no,
+		    vip_name,
+		    article_title,
+		    media_no,
+		    cost,
+		    status_,
+		    add_time,
+		    last_update_time,
+		    last_update_by)
+		values
+		(
+			#{order_no},
+		    #{vip_name},
+		    #{article_title},
+		    #{media_no},
+		    #{cost},
+		    #{status_},
+		    now(),
+		    now(),
+		    #{last_update_by})
+	</insert>
+</mapper>	
